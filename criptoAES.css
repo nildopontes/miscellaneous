@@ -1,0 +1,20 @@
+body, html{
+   margin:0;
+   padding:0;
+}
+body > *{
+   width:90%;
+   margin-left:5%;
+   margin-bottom:5px;
+   box-sizing:border-box;
+}
+input, button{
+  height:30px;
+}
+textarea{
+   height:150px;
+   white-space:nowrap;
+   overflow:scroll;
+   overflow-y:auto;
+   overflow-x:scroll;
+}
