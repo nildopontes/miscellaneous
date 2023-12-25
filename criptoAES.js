@@ -3,30 +3,65 @@ function $(id){
    return document.getElementById(id);
 }
 function expandPass(){
-   $('pass').value.split('').forEach(element => {
-      password.push(element.charCodeAt(0));
+   return new Promise((resolve, reject) => {
+      $('pass').value.split('').forEach(element => {
+         password.push(element.charCodeAt(0));
+      });
+      const rawKey = new Uint8Array(password);
+      window.crypto.subtle.importKey('raw', rawKey, 'AES-GCM', true, ['encrypt', 'decrypt']).then(key => {
+         resolve(key);
+      });
    });
 }
-function encrypt(){
-   var text = $('text').value;
-   expandPass();
-   var counter;
-   if($('counter').value.length == 0){
-      counter = 1;
-   }else{
-      counter = parseInt($('counter').value, 10);
-   }
-   var textBytes = aesjs.utils.utf8.toBytes(text);
-   var aesCtr = new aesjs.ModeOfOperation.ctr(password, new aesjs.Counter(counter));
-   var encryptedBytes = aesCtr.encrypt(textBytes);
-   $('hex').value = `${aesjs.utils.hex.fromBytes(encryptedBytes)}${('000000' + counter).slice(-6)}`;
+function download(data, name){
+   const file = new Blob([data], {type: "application/octet-stream"});
+   const a = document.createElement('a');
+   const url = URL.createObjectURL(file);
+   a.href = url;
+   a.download = name;
+   document.body.appendChild(a);
+   a.click();
+   setTimeout(function(){
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+   },0);
 }
-function decrypt(){
-   expandPass();
-   var encryptedHex = $('hex').value;
-   var counter = parseInt(encryptedHex.substring(encryptedHex.length - 6, encryptedHex.length), 10);
-   var encryptedBytes = aesjs.utils.hex.toBytes(encryptedHex.substring(0, encryptedHex.length - 6));
-   var aesCtr = new aesjs.ModeOfOperation.ctr(password, new aesjs.Counter(counter));
-   var decryptedBytes = aesCtr.decrypt(encryptedBytes);
-   $('text').value =  aesjs.utils.utf8.fromBytes(decryptedBytes);
+function encrypt(key){
+      let iv = window.crypto.getRandomValues(new Uint8Array(12));
+      window.crypto.subtle.encrypt(
+         {name: "AES-GCM", iv: iv},
+         key,
+         new TextEncoder().encode($('text').value)
+      ).then(buffer => {
+         var encryptedWIV = new Uint8Array(buffer.byteLength + iv.length);
+         const encrypted = new Uint8Array(buffer);
+         encryptedWIV.set(encrypted);
+         encryptedWIV.set(iv, encrypted.length);
+         download(encryptedWIV, $('fileName').value);
+      }).catch(error => {
+         alert('Senha ou nome de arquivo incompatível.');
+      });
+}
+function $(id){
+   return document.getElementById(id);
+}
+function decrypt(key){
+   var reader = new FileReader();
+   reader.readAsArrayBuffer(new Blob([$('file').files[0]]));
+   reader.onload = function(){
+      var arrayBuffer = reader.result;
+      var encrypted = new Uint8Array(arrayBuffer);
+      window.crypto.subtle.decrypt(
+         {
+            name: "AES-GCM",
+            iv: encrypted.slice(encrypted.length - 12)
+         },
+         key,
+         encrypted.slice(0, encrypted.length - 12)
+      ).then(decrypted => {
+         $('text').value = new TextDecoder().decode(decrypted);
+      }).catch(error => {
+         alert('Arquivo corrompido ou senha incorreta.');
+      });
+   }
 }
