@@ -4,7 +4,7 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="icon" href="favicon.png" type="image/png">
-      <title>Gen Censo</title>
+      <title>Censo</title>
       <script>
          var censo, ctx, imgBase;
          var numbers = [];
@@ -77,9 +77,27 @@
             min-height:100vh;
             font-family:Helvetica;
          }
+         h1{
+            text-align:center;
+         }
+         #bt{
+            margin-left:calc((100vw - 150px) / 2);
+            margin-bottom:20px;
+            text-align:center;
+            line-height:30px;
+            font-size:20px;
+            color:white;
+            width:150px;
+            height:30px;
+            background:green;
+            border:none;
+            outline:none;
+         }
       </style>
    </head>
    <body>
+      <h1>Censo SPRH</h1>
+      <hr>
       <label>NCALA: <input type="number" id="NCALA" data-position="1567,676"></label><br><br>
       <label>NCSOP: <input type="number" id="NCSOP" data-position="2116,670"></label><br><br>
       <label>NCIC: <input type="number" id="NCIC" data-position="2636,669"></label><br><br>
@@ -100,6 +118,6 @@
       <label>NVSOP: <input type="number" id="NVSOP" data-position="2134,1476"></label><br><br>
       <label>NVIC: <input type="number" id="NVIC" data-position="2641,1468"></label><br><br>
          <input type="hidden" id="NVVD" data-position="3200,1456">
-      <input type="button" value="Gerar" onclick="gen()"><br>
+      <input type="button" value="GERAR" onclick="gen()" id="bt"><br>
    </body>
 </html>
