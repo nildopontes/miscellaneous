@@ -48,8 +48,9 @@
                let desloc = document.getElementById(n).dataset.position.split(',').map(v => parseInt(v, 10));
                ctx.drawImage(genCanvas(document.getElementById(n).value), 0, 0, 270, 170, ...desloc, 270, 170);
             });
-            document.body.innerHTML = '';
-            document.body.appendChild(censo);
+            censo.toBlob(b => {
+                document.body.innerHTML = `<img src="${window.URL.createObjectURL(b)}">`;
+            }, 'image/png', 1);
          }
          function genCanvas(values){
             let c = document.createElement('canvas');
@@ -63,11 +64,6 @@
               cCtx.drawImage(numbers[v[1]], 0, 0, 90, 170, 135, 0, 90, 170);
             }
             return c;
-         }
-         function printDate(){
-            var day = genCanvas(new Date().getDate());
-            var month = genCanvas(new Date().getMonth() + 1);
-            var year = genCanvas(new Date().getFullYear() - 2000);
          }
       </script>
       <style>
