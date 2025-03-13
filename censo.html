@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" href="favicon.png" type="image/png">
+      <title>Gen Censo</title>
+      <script>
+         var censo, ctx, imgBase;
+         var numbers = [];
+         for(let i = 0; i < 10; i++){
+            numbers.push(new Image(90,170));
+            numbers[i].src = i + '.png';
+         }
+         window.addEventListener('load', event => {
+            censo = document.createElement('canvas');
+            censo.setAttribute('width', '3833');
+            censo.setAttribute('height', '1827');
+            ctx = censo.getContext('2d');
+            imgBase = new Image(3833, 1827);
+            imgBase.src = 'censo.png';
+            imgBase.onload = () => {
+               ctx.drawImage(imgBase, 0, 0, 3833, 1827, 0, 0, 3833, 1827);
+               ctx.drawImage(genCanvas(new Date().getDate()), 0, 0, 270, 170, 1632, 144, 270, 140);
+               ctx.drawImage(genCanvas(new Date().getMonth() + 1), 0, 0, 270, 170, 1936, 141, 270, 140);
+               ctx.drawImage(genCanvas(new Date().getFullYear() - 2000), 0, 0, 270, 170, 2223, 138, 270, 140);
+            };
+         });
+         function gen(){
+            NCVD.value = 20 - (parseInt(NCALA.value) + parseInt(NCIC.value) + parseInt(NCSOP.value));
+            if(parseInt(NCVD.value) < 0) NCVD.value = 0;
+            
+            VRVD.value = 30 - (parseInt(VRALA.value) + parseInt(VRIC.value) + parseInt(VRSOP.value));
+            if(parseInt(VRVD.value) < 0) VRVD.value = 0;
+            
+            OMVD.value = 35 - (parseInt(OMALA.value) + parseInt(OMIC.value) + parseInt(OMSOP.value));
+            if(parseInt(OMVD.value) < 0) OMVD.value = 0;
+            
+            VAVD.value = 20 - (parseInt(VAALA.value) + parseInt(VAIC.value) + parseInt(VASOP.value));
+            if(parseInt(VAVD.value) < 0) VAVD.value = 0;
+            
+            NVVD.value = 18 - (parseInt(NVALA.value) + parseInt(NVIC.value) + parseInt(NVSOP.value));
+            if(parseInt(NVVD.value) < 0) NVVD.value = 0;
+            
+            let fields = ['NCALA', 'NCSOP', 'NCIC', 'NCVD', 'VRALA', 'VRSOP', 'VRIC', 'VRVD', 'OMALA', 'OMSOP', 'OMIC', 'OMVD', 'VAALA', 'VASOP', 'VAIC', 'VAVD', 'NVALA', 'NVSOP', 'NVIC', 'NVVD'];
+            fields.map(n => {
+               if(document.getElementById(n).value == '') document.getElementById(n).value = 0;
+               let desloc = document.getElementById(n).dataset.position.split(',').map(v => parseInt(v, 10));
+               ctx.drawImage(genCanvas(document.getElementById(n).value), 0, 0, 270, 170, ...desloc, 270, 170);
+            });
+            document.body.innerHTML = '';
+            document.body.appendChild(censo);
+         }
+         function genCanvas(values){
+            let c = document.createElement('canvas');
+            let v = (values + '').split('').map(t => parseInt(t));
+            c.setAttribute('width', '270');
+            c.setAttribute('height', '170');
+            let cCtx = c.getContext('2d');
+            if(v.length == 1) cCtx.drawImage(numbers[v[0]], 0, 0, 90, 170, 95, 0, 90, 170);
+            if(v.length == 2){
+              cCtx.drawImage(numbers[v[0]], 0, 0, 90, 170, 55, 0, 90, 170);
+              cCtx.drawImage(numbers[v[1]], 0, 0, 90, 170, 135, 0, 90, 170);
+            }
+            return c;
+         }
+         function printDate(){
+            var day = genCanvas(new Date().getDate());
+            var month = genCanvas(new Date().getMonth() + 1);
+            var year = genCanvas(new Date().getFullYear() - 2000);
+         }
+      </script>
+      <style>
+         body,html{
+            margin:0;
+            padding:0;
+            min-height:100vh;
+            font-family:Helvetica;
+         }
+      </style>
+   </head>
+   <body>
+      <label>NCALA: <input type="number" id="NCALA" data-position="1567,676"></label><br><br>
+      <label>NCSOP: <input type="number" id="NCSOP" data-position="2116,670"></label><br><br>
+      <label>NCIC: <input type="number" id="NCIC" data-position="2636,669"></label><br><br>
+         <input type="hidden" id="NCVD" data-position="3192,661">
+      <label>VRALA: <input type="number" id="VRALA" data-position="1568,869"></label><br><br>
+      <label>VRSOP: <input type="number" id="VRSOP" data-position="2124,869"></label><br><br>
+      <label>VRIC: <input type="number" id="VRIC" data-position="2636,863"></label><br><br>
+         <input type="hidden" id="VRVD" data-position="3194,861">
+      <label>OMALA: <input type="number" id="OMALA" data-position="1570,1082"></label><br><br>
+      <label>OMSOP: <input type="number" id="OMSOP" data-position="2126,1079"></label><br><br>
+      <label>OMIC: <input type="number" id="OMIC" data-position="2638,1075"></label><br><br>
+         <input type="hidden" id="OMVD" data-position="3194,1068">
+      <label>VAALA: <input type="number" id="VAALA" data-position="1575,1293"></label><br><br>
+      <label>VASOP: <input type="number" id="VASOP" data-position="2130,1290"></label><br><br>
+      <label>VAIC: <input type="number" id="VAIC" data-position="2641,1281"></label><br><br>
+         <input type="hidden" id="VAVD" data-position="3194,1274">
+      <label>NVALA: <input type="number" id="NVALA" data-position="1575,1482"></label><br><br>
+      <label>NVSOP: <input type="number" id="NVSOP" data-position="2134,1476"></label><br><br>
+      <label>NVIC: <input type="number" id="NVIC" data-position="2641,1468"></label><br><br>
+         <input type="hidden" id="NVVD" data-position="3200,1456">
+      <input type="button" value="Gerar" onclick="gen()"><br>
+   </body>
+</html>
