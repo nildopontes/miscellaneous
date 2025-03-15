@@ -27,6 +27,7 @@
             };
          });
          function gen(){
+            document.getElementById('loading').style.display = 'block';
             NCVD.value = 20 - (parseInt(NCALA.value) + parseInt(NCIC.value) + parseInt(NCSOP.value));
             if(parseInt(NCVD.value) < 0) NCVD.value = 0;
             
@@ -79,56 +80,135 @@
             min-height:100vh;
             font-family:Helvetica;
          }
+         *{
+            text-align:center;
+            box-sizing:border-box;
+            user-select:none;
+         }
          h1{
             text-align:center;
          }
          #bt{
-            margin-left:calc((100vw - 150px) / 2);
-            margin-bottom:20px;
-            text-align:center;
+            margin-left:calc((50vw - 150px) / 2);
             line-height:30px;
             font-size:20px;
             color:white;
             width:150px;
             height:30px;
             background:green;
-            border:none;
-            outline:none;
          }
          input{
-            margin-bottom:10px;
             border:none;
-            border-bottom:1px solid gray;
             outline:none;
          }
-         label{
-            margin-left:20px;
+         .divTable{
+            margin-left:1vw;
+            margin-bottom:20px;
+            width:98vw;
+            border:1px solid black;
+         }
+         .row{
+            width:100%;
+            height:40px;
+            line-height:40px;
+         }
+         .row > *{
+            float:left;
+            border:1px solid gray;
+         }
+         .header{
+            width:16%;
+            height:100%;
+            background:#d7d1d0;
+         }
+         .cell{
+            width:28%;
+            height:100%;
+         }
+         .name{
+            background:#d7d1d0;
+         }
+         input[type="number"]{
+            width:100%;
+            height:100%;
+            font-size:20px;
+         }
+         #loading{
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.4);
+            position:fixed;
+            top:0;
+            left:0;
+            display:none;
+         }
+         .loader{
+            animation:rotating 1s infinite;
+            border:6px solid #e5e5e5;
+            border-radius:50%;
+            border-top-color:#51d4db;
+            height:80px;
+            width:80px;
+            margin:auto;
+            margin-top:calc(50vh - 40px);
+            user-select:none;
+         }
+         @keyframes rotating{
+            to{
+               transform:rotate(1turn);
+            }
          }
       </style>
    </head>
    <body>
       <h1>Censo SPRH</h1>
       <hr>
-      <label>NC - ALA: <input type="number" oninput="this.value=filt(this.value, 'NCSOP')" id="NCALA" data-position="1567,676"></label><br>
-      <label>NC - SOP: <input type="number" oninput="this.value=filt(this.value, 'NCIC')" id="NCSOP" data-position="2116,670"></label><br>
-      <label>NC - IC: <input type="number" oninput="this.value=filt(this.value, 'VRALA')" id="NCIC" data-position="2636,669"></label><br>
-         <input type="hidden" id="NCVD" data-position="3192,661">
-      <label>VR - ALA: <input type="number" oninput="this.value=filt(this.value, 'VRSOP')" id="VRALA" data-position="1568,869"></label><br>
-      <label>VR - SOP: <input type="number" oninput="this.value=filt(this.value, 'VRIC')" id="VRSOP" data-position="2124,869"></label><br>
-      <label>VR - IC: <input type="number" oninput="this.value=filt(this.value, 'OMALA')" id="VRIC" data-position="2636,863"></label><br>
-         <input type="hidden" id="VRVD" data-position="3194,861">
-      <label>OM - ALA: <input type="number" oninput="this.value=filt(this.value, 'OMSOP')" id="OMALA" data-position="1570,1082"></label><br>
-      <label>OM - SOP: <input type="number" oninput="this.value=filt(this.value, 'OMIC')" id="OMSOP" data-position="2126,1079"></label><br>
-      <label>OM - IC: <input type="number" oninput="this.value=filt(this.value, 'VAALA')" id="OMIC" data-position="2638,1075"></label><br>
-         <input type="hidden" id="OMVD" data-position="3194,1068">
-      <label>VA - ALA: <input type="number" oninput="this.value=filt(this.value, 'VASOP')" id="VAALA" data-position="1575,1293"></label><br>
-      <label>VA - SOP: <input type="number" oninput="this.value=filt(this.value, 'VAIC')" id="VASOP" data-position="2130,1290"></label><br>
-      <label>VA - IC: <input type="number" oninput="this.value=filt(this.value, 'NVALA')" id="VAIC" data-position="2641,1281"></label><br>
-         <input type="hidden" id="VAVD" data-position="3194,1274">
-      <label>NV - ALA: <input type="number" oninput="this.value=filt(this.value, 'NVSOP')" id="NVALA" data-position="1575,1482"></label><br>
-      <label>NV - SOP: <input type="number" oninput="this.value=filt(this.value, 'NVIC')" id="NVSOP" data-position="2134,1476"></label><br>
-      <label>NV - IC: <input type="number" oninput="this.value=filt(this.value, 'bt')" id="NVIC" data-position="2641,1468"></label><br>
-         <input type="hidden" id="NVVD" data-position="3200,1456">
+      <div class="divTable">
+         <div class="row">
+            <div class="header"></div>
+            <div class="cell name">ALA</div>
+            <div class="cell name">SOP</div>
+            <div class="cell name">IC</div>
+         </div>
+        <div class="row">
+            <div class="header">NC</div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VRALA')" id="NCALA" data-position="1567,676"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VRSOP')" id="NCSOP" data-position="2116,670"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VRIC')" id="NCIC" data-position="2636,669"></div>
+            <input type="hidden" id="NCVD" data-position="3192,661">
+         </div>
+         <div class="row">
+            <div class="header">VR</div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'OMALA')" id="VRALA" data-position="1568,869"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'OMSOP')" id="VRSOP" data-position="2124,869"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'OMIC')" id="VRIC" data-position="2636,863"></div>
+            <input type="hidden" id="VRVD" data-position="3194,861">
+         </div>
+         <div class="row">
+            <div class="header">OM</div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VAALA')" id="OMALA" data-position="1570,1082"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VASOP')" id="OMSOP" data-position="2126,1079"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VAIC')" id="OMIC" data-position="2638,1075"></div>
+            <input type="hidden" id="OMVD" data-position="3194,1068">
+         </div>
+         <div class="row">
+            <div class="header">VA</div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NVALA')" id="VAALA" data-position="1575,1293"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NVSOP')" id="VASOP" data-position="2130,1290"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NVIC')" id="VAIC" data-position="2641,1281"></div>
+            <input type="hidden" id="VAVD" data-position="3194,1274">
+         </div>
+         <div class="row">
+            <div class="header">NV</div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NCSOP')" id="NVALA" data-position="1575,1482"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NCIC')" id="NVSOP" data-position="2134,1476"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'bt')" id="NVIC" data-position="2641,1468"></div>
+            <input type="hidden" id="NVVD" data-position="3200,1456">
+         </div>
+      </div>
       <input type="button" value="GERAR" onclick="gen()" id="bt"><br>
+      <div id="loading">
+         <div class="loader"></div>
+      </div>
    </body>
 </html>
