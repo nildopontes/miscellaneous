@@ -68,7 +68,7 @@
          function filt(value, idNext){
             value = value.slice(0,2);
             if(value != '') value = parseInt(value);
-            if(value > 9 || value == 0) document.getElementById(idNext).focus();
+            if(value > 9 || value === 0) document.getElementById(idNext).focus();
             return value;
          }
       </script>
