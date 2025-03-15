@@ -65,6 +65,12 @@
             }
             return c;
          }
+         function filt(value, idNext){
+            value = value.slice(0,2);
+            if(value != '') value = parseInt(value);
+            if(value > 9 || value == 0) document.getElementById(idNext).focus();
+            return value;
+         }
       </script>
       <style>
          body,html{
@@ -89,30 +95,39 @@
             border:none;
             outline:none;
          }
+         input{
+            margin-bottom:10px;
+            border:none;
+            border-bottom:1px solid gray;
+            outline:none;
+         }
+         label{
+            margin-left:20px;
+         }
       </style>
    </head>
    <body>
       <h1>Censo SPRH</h1>
       <hr>
-      <label>NCALA: <input type="number" id="NCALA" data-position="1567,676"></label><br><br>
-      <label>NCSOP: <input type="number" id="NCSOP" data-position="2116,670"></label><br><br>
-      <label>NCIC: <input type="number" id="NCIC" data-position="2636,669"></label><br><br>
+      <label>NC - ALA: <input type="number" oninput="this.value=filt(this.value, 'NCSOP')" id="NCALA" data-position="1567,676"></label><br>
+      <label>NC - SOP: <input type="number" oninput="this.value=filt(this.value, 'NCIC')" id="NCSOP" data-position="2116,670"></label><br>
+      <label>NC - IC: <input type="number" oninput="this.value=filt(this.value, 'VRALA')" id="NCIC" data-position="2636,669"></label><br>
          <input type="hidden" id="NCVD" data-position="3192,661">
-      <label>VRALA: <input type="number" id="VRALA" data-position="1568,869"></label><br><br>
-      <label>VRSOP: <input type="number" id="VRSOP" data-position="2124,869"></label><br><br>
-      <label>VRIC: <input type="number" id="VRIC" data-position="2636,863"></label><br><br>
+      <label>VR - ALA: <input type="number" oninput="this.value=filt(this.value, 'VRSOP')" id="VRALA" data-position="1568,869"></label><br>
+      <label>VR - SOP: <input type="number" oninput="this.value=filt(this.value, 'VRIC')" id="VRSOP" data-position="2124,869"></label><br>
+      <label>VR - IC: <input type="number" oninput="this.value=filt(this.value, 'OMALA')" id="VRIC" data-position="2636,863"></label><br>
          <input type="hidden" id="VRVD" data-position="3194,861">
-      <label>OMALA: <input type="number" id="OMALA" data-position="1570,1082"></label><br><br>
-      <label>OMSOP: <input type="number" id="OMSOP" data-position="2126,1079"></label><br><br>
-      <label>OMIC: <input type="number" id="OMIC" data-position="2638,1075"></label><br><br>
+      <label>OM - ALA: <input type="number" oninput="this.value=filt(this.value, 'OMSOP')" id="OMALA" data-position="1570,1082"></label><br>
+      <label>OM - SOP: <input type="number" oninput="this.value=filt(this.value, 'OMIC')" id="OMSOP" data-position="2126,1079"></label><br>
+      <label>OM - IC: <input type="number" oninput="this.value=filt(this.value, 'VAALA')" id="OMIC" data-position="2638,1075"></label><br>
          <input type="hidden" id="OMVD" data-position="3194,1068">
-      <label>VAALA: <input type="number" id="VAALA" data-position="1575,1293"></label><br><br>
-      <label>VASOP: <input type="number" id="VASOP" data-position="2130,1290"></label><br><br>
-      <label>VAIC: <input type="number" id="VAIC" data-position="2641,1281"></label><br><br>
+      <label>VA - ALA: <input type="number" oninput="this.value=filt(this.value, 'VASOP')" id="VAALA" data-position="1575,1293"></label><br>
+      <label>VA - SOP: <input type="number" oninput="this.value=filt(this.value, 'VAIC')" id="VASOP" data-position="2130,1290"></label><br>
+      <label>VA - IC: <input type="number" oninput="this.value=filt(this.value, 'NVALA')" id="VAIC" data-position="2641,1281"></label><br>
          <input type="hidden" id="VAVD" data-position="3194,1274">
-      <label>NVALA: <input type="number" id="NVALA" data-position="1575,1482"></label><br><br>
-      <label>NVSOP: <input type="number" id="NVSOP" data-position="2134,1476"></label><br><br>
-      <label>NVIC: <input type="number" id="NVIC" data-position="2641,1468"></label><br><br>
+      <label>NV - ALA: <input type="number" oninput="this.value=filt(this.value, 'NVSOP')" id="NVALA" data-position="1575,1482"></label><br>
+      <label>NV - SOP: <input type="number" oninput="this.value=filt(this.value, 'NVIC')" id="NVSOP" data-position="2134,1476"></label><br>
+      <label>NV - IC: <input type="number" oninput="this.value=filt(this.value, 'bt')" id="NVIC" data-position="2641,1468"></label><br>
          <input type="hidden" id="NVVD" data-position="3200,1456">
       <input type="button" value="GERAR" onclick="gen()" id="bt"><br>
    </body>
