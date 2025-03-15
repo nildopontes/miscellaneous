@@ -30,19 +30,14 @@
             document.getElementById('loading').style.display = 'block';
             NCVD.value = 20 - (parseInt(NCALA.value) + parseInt(NCIC.value) + parseInt(NCSOP.value));
             if(parseInt(NCVD.value) < 0) NCVD.value = 0;
-            
             VRVD.value = 30 - (parseInt(VRALA.value) + parseInt(VRIC.value) + parseInt(VRSOP.value));
             if(parseInt(VRVD.value) < 0) VRVD.value = 0;
-            
             OMVD.value = 35 - (parseInt(OMALA.value) + parseInt(OMIC.value) + parseInt(OMSOP.value));
             if(parseInt(OMVD.value) < 0) OMVD.value = 0;
-            
             VAVD.value = 20 - (parseInt(VAALA.value) + parseInt(VAIC.value) + parseInt(VASOP.value));
             if(parseInt(VAVD.value) < 0) VAVD.value = 0;
-            
             NVVD.value = 18 - (parseInt(NVALA.value) + parseInt(NVIC.value) + parseInt(NVSOP.value));
             if(parseInt(NVVD.value) < 0) NVVD.value = 0;
-            
             let fields = ['NCALA', 'NCSOP', 'NCIC', 'NCVD', 'VRALA', 'VRSOP', 'VRIC', 'VRVD', 'OMALA', 'OMSOP', 'OMIC', 'OMVD', 'VAALA', 'VASOP', 'VAIC', 'VAVD', 'NVALA', 'NVSOP', 'NVIC', 'NVVD'];
             fields.map(n => {
                if(document.getElementById(n).value == '') document.getElementById(n).value = 0;
@@ -66,10 +61,10 @@
             }
             return c;
          }
-         function filt(value, idNext){
+         function filt(aux, value, idNext){
             value = value.slice(0,2);
             if(value != '') value = parseInt(value);
-            if(value > 9 || value === 0) document.getElementById(idNext).focus();
+            if(value > aux || value === 0) document.getElementById(idNext).focus();
             return value;
          }
       </script>
@@ -172,37 +167,37 @@
          </div>
         <div class="row">
             <div class="header">NC</div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VRALA')" id="NCALA" data-position="1567,676"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VRSOP')" id="NCSOP" data-position="2116,670"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VRIC')" id="NCIC" data-position="2636,669"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(9, this.value, 'VRALA')" id="NCALA" data-position="1567,676"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'VRSOP')" id="NCSOP" data-position="2116,670"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'VRIC')" id="NCIC" data-position="2636,669"></div>
             <input type="hidden" id="NCVD" data-position="3192,661">
          </div>
          <div class="row">
             <div class="header">VR</div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'OMALA')" id="VRALA" data-position="1568,869"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'OMSOP')" id="VRSOP" data-position="2124,869"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'OMIC')" id="VRIC" data-position="2636,863"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(9, this.value, 'OMALA')" id="VRALA" data-position="1568,869"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'OMSOP')" id="VRSOP" data-position="2124,869"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'OMIC')" id="VRIC" data-position="2636,863"></div>
             <input type="hidden" id="VRVD" data-position="3194,861">
          </div>
          <div class="row">
             <div class="header">OM</div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VAALA')" id="OMALA" data-position="1570,1082"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VASOP')" id="OMSOP" data-position="2126,1079"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'VAIC')" id="OMIC" data-position="2638,1075"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(9, this.value, 'VAALA')" id="OMALA" data-position="1570,1082"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'VASOP')" id="OMSOP" data-position="2126,1079"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'VAIC')" id="OMIC" data-position="2638,1075"></div>
             <input type="hidden" id="OMVD" data-position="3194,1068">
          </div>
          <div class="row">
             <div class="header">VA</div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NVALA')" id="VAALA" data-position="1575,1293"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NVSOP')" id="VASOP" data-position="2130,1290"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NVIC')" id="VAIC" data-position="2641,1281"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(9, this.value, 'NVALA')" id="VAALA" data-position="1575,1293"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'NVSOP')" id="VASOP" data-position="2130,1290"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'NVIC')" id="VAIC" data-position="2641,1281"></div>
             <input type="hidden" id="VAVD" data-position="3194,1274">
          </div>
          <div class="row">
             <div class="header">NV</div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NCSOP')" id="NVALA" data-position="1575,1482"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'NCIC')" id="NVSOP" data-position="2134,1476"></div>
-            <div class="cell"><input type="number" oninput="this.value=filt(this.value, 'bt')" id="NVIC" data-position="2641,1468"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(9, this.value, 'NCSOP')" id="NVALA" data-position="1575,1482"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'NCIC')" id="NVSOP" data-position="2134,1476"></div>
+            <div class="cell"><input type="number" oninput="this.value=filt(0, this.value, 'bt')" id="NVIC" data-position="2641,1468"></div>
             <input type="hidden" id="NVVD" data-position="3200,1456">
          </div>
       </div>
