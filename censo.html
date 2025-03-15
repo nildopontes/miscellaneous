@@ -6,7 +6,7 @@
       <link rel="icon" href="favicon.png" type="image/png">
       <title>Censo</title>
       <script>
-         var censo, ctx, imgBase;
+         var censo, ctx, imgBase, blob;
          var numbers = [];
          for(let i = 0; i < 10; i++){
             numbers.push(new Image(90,170));
@@ -26,6 +26,19 @@
                ctx.drawImage(genCanvas(new Date().getFullYear() - 2000), 0, 0, 270, 170, 2223, 138, 270, 140);
             };
          });
+         async function sharee(){
+            const file = new File([blob], 'image.png', {
+                type: blob.type,
+            });
+            const files = [file];
+            if(navigator.canShare({ files })){
+               await navigator.share({
+                  files,
+                  title: "Foto do censo",
+                  text: "Censo de hoje",
+               });
+            }
+         }
          function gen(){
             document.getElementById('loading').style.display = 'block';
             NCVD.value = 20 - (parseInt(NCALA.value) + parseInt(NCIC.value) + parseInt(NCSOP.value));
@@ -45,7 +58,8 @@
                ctx.drawImage(genCanvas(document.getElementById(n).value), 0, 0, 270, 170, ...desloc, 270, 170);
             });
             censo.toBlob(b => {
-                document.body.innerHTML = `<img src="${window.URL.createObjectURL(b)}">`;
+               blob = b;
+               document.body.innerHTML = `<img src="${window.URL.createObjectURL(b)}">\n<input value="Compartilhar" type="button" onclick="sharee()">`;
             }, 'image/png', 1);
          }
          function genCanvas(values){
