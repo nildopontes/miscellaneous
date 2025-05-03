@@ -7,11 +7,13 @@
       <title>Censo</title>
       <script>
          var censo, ctx, imgBase, blob;
-         var numbers = [];
+         var numbers = {};
          for(let i = 0; i < 10; i++){
-            numbers.push(new Image(90,170));
+            numbers[i] = new Image(90,170);
             numbers[i].src = i + '.png';
          }
+         numbers['-'] = new Image(90,170);
+         numbers['-'].src = '-.png';
          window.addEventListener('load', event => {
             censo = document.createElement('canvas');
             censo.setAttribute('width', '3833');
@@ -49,15 +51,10 @@
             }
             document.getElementById('loading').style.display = 'block';
             NCVD.value = 20 - (parseInt(NCALA.value) + parseInt(NCIC.value) + parseInt(NCSOP.value));
-            if(parseInt(NCVD.value) < 0) NCVD.value = 0;
             VRVD.value = 30 - (parseInt(VRALA.value) + parseInt(VRIC.value) + parseInt(VRSOP.value));
-            if(parseInt(VRVD.value) < 0) VRVD.value = 0;
             OMVD.value = 35 - (parseInt(OMALA.value) + parseInt(OMIC.value) + parseInt(OMSOP.value));
-            if(parseInt(OMVD.value) < 0) OMVD.value = 0;
             VAVD.value = 20 - (parseInt(VAALA.value) + parseInt(VAIC.value) + parseInt(VASOP.value));
-            if(parseInt(VAVD.value) < 0) VAVD.value = 0;
             NVVD.value = 18 - (parseInt(NVALA.value) + parseInt(NVIC.value) + parseInt(NVSOP.value));
-            if(parseInt(NVVD.value) < 0) NVVD.value = 0;
             ['NCALA', 'NCSOP', 'NCIC', 'NCVD', 'VRALA', 'VRSOP', 'VRIC', 'VRVD', 'OMALA', 'OMSOP', 'OMIC', 'OMVD', 'VAALA', 'VASOP', 'VAIC', 'VAVD', 'NVALA', 'NVSOP', 'NVIC', 'NVVD'].map(n => {
                let desloc = document.getElementById(n).dataset.position.split(',').map(v => parseInt(v, 10));
                ctx.drawImage(genCanvas(document.getElementById(n).value), 0, 0, 270, 170, ...desloc, 270, 170);
@@ -69,7 +66,7 @@
          }
          function genCanvas(values){
             let c = document.createElement('canvas');
-            let v = (values + '').split('').map(t => parseInt(t));
+            let v = (values + '').split('');
             c.setAttribute('width', '270');
             c.setAttribute('height', '170');
             let cCtx = c.getContext('2d');
@@ -77,6 +74,11 @@
             if(v.length == 2){
               cCtx.drawImage(numbers[v[0]], 0, 0, 90, 170, 55, 0, 90, 170);
               cCtx.drawImage(numbers[v[1]], 0, 0, 90, 170, 135, 0, 90, 170);
+            }
+            if(v.length == 3){
+              cCtx.drawImage(numbers[v[0]], 0, 0, 90, 170, 10, 0, 90, 170);
+              cCtx.drawImage(numbers[v[1]], 0, 0, 90, 170, 90, 0, 90, 170);
+              cCtx.drawImage(numbers[v[2]], 0, 0, 90, 170, 170, 0, 90, 170);
             }
             return c;
          }
